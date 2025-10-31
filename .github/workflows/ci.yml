@@ -1,0 +1,22 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend-ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Use Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Install backend deps
+        working-directory: backend
+        run: npm ci || npm install --no-audit --no-fund
+      - name: Basic check
+        run: node -e "console.log('Node', process.version)"
