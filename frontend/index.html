@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>TempMail - Nhận OTP miễn phí</title>
+	<link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+	<div class="container">
+		<header>
+			<h1>TempMail</h1>
+			<nav id="nav"></nav>
+		</header>
+
+		<main>
+			<section id="auth-section">
+				<div class="card">
+					<h2>Đăng nhập</h2>
+					<form id="login-form">
+						<input type="email" id="login-email" placeholder="Email" required />
+						<input type="password" id="login-password" placeholder="Mật khẩu" required />
+						<button type="submit">Đăng nhập</button>
+					</form>
+				</div>
+				<div class="card">
+					<h2>Đăng ký</h2>
+					<form id="register-form">
+						<input type="email" id="register-email" placeholder="Email" required />
+						<input type="password" id="register-password" placeholder="Mật khẩu" required />
+						<button type="submit">Đăng ký</button>
+					</form>
+				</div>
+			</section>
+
+			<section id="mail-section" class="hidden">
+				<div class="layout">
+					<aside class="sidebar">
+						<div class="address">
+							<input id="local-part" placeholder="local-part (tùy chọn)" />
+							<select id="domain"></select>
+							<div class="current"><strong id="current-address">(chưa có)</strong></div>
+						</div>
+						<div class="actions-vertical">
+							<button id="copy-address">Sao chép</button>
+							<button id="refresh">Làm mới</button>
+							<button id="new-mail">Mới</button>
+							<button id="clear-mail">Xóa</button>
+						</div>
+					</aside>
+					<section class="content">
+						<div class="card">
+							<h3>Danh sách thư</h3>
+							<div id="messages"></div>
+						</div>
+						<div class="card">
+							<h3>Nội dung thư</h3>
+							<pre id="message-content" class="message"></pre>
+						</div>
+					</section>
+				</div>
+			</section>
+		</main>
+	</div>
+
+	<script src="/app.js"></script>
+</body>
+</html>
