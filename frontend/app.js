@@ -80,12 +80,27 @@ async function loadDomains() {
 	}
 }
 
+async function ensureMailboxExists() {
+	try {
+		// Empty body => backend will generate completely random mailbox
+		const data = await api('/api/mailbox/new', { method: 'POST', body: JSON.stringify({}) });
+		currentAddressEl.textContent = data.address;
+		await loadMessages();
+	} catch (e) {
+		console.warn('auto-create mailbox failed', e);
+	}
+}
+
 async function loadMailbox() {
 	try {
 		const data = await api('/api/mailbox');
-		if (!data.address) currentAddressEl.textContent = '(chưa có)';
-		else currentAddressEl.textContent = data.address;
-		await loadMessages();
+		if (!data.address) {
+			currentAddressEl.textContent = '(chưa có)';
+			await ensureMailboxExists();
+		} else {
+			currentAddressEl.textContent = data.address;
+			await loadMessages();
+		}
 	} catch (e) {
 		console.error(e);
 	}
