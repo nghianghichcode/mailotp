@@ -1,4 +1,6 @@
-const apiBase = '';
+const apiBase = (location.hostname.endsWith('github.io') || location.hostname !== 'localhost')
+	? 'http://localhost:4100'
+	: '';
 let token = localStorage.getItem('tm_token') || '';
 
 const qs = (s) => document.querySelector(s);
