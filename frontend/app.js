@@ -2,6 +2,7 @@ const apiBase = (location.hostname.endsWith('github.io') || location.hostname !=
 	? 'http://localhost:4100'
 	: '';
 let token = localStorage.getItem('tm_token') || '';
+let refreshTimer = null;
 
 const qs = (s) => document.querySelector(s);
 const authSection = qs('#auth-section');
@@ -10,6 +11,18 @@ const nav = qs('#nav');
 const currentAddressEl = qs('#current-address');
 const messagesEl = qs('#messages');
 const messageContentEl = qs('#message-content');
+
+function stopPolling() {
+	if (refreshTimer) {
+		clearInterval(refreshTimer);
+		refreshTimer = null;
+	}
+}
+
+function startPolling() {
+	stopPolling();
+	refreshTimer = setInterval(loadMessages, 10000);
+}
 
 function setAuthedUI(authed) {
 	authSection.classList.toggle('hidden', authed);
@@ -21,6 +34,7 @@ function setAuthedUI(authed) {
 		qs('#logout').onclick = () => {
 			localStorage.removeItem('tm_token');
 			token = '';
+			stopPolling();
 			setAuthedUI(false);
 		};
 	}
@@ -82,7 +96,6 @@ async function loadDomains() {
 
 async function ensureMailboxExists() {
 	try {
-		// Empty body => backend will generate completely random mailbox
 		const data = await api('/api/mailbox/new', { method: 'POST', body: JSON.stringify({}) });
 		currentAddressEl.textContent = data.address;
 		await loadMessages();
@@ -101,6 +114,7 @@ async function loadMailbox() {
 			currentAddressEl.textContent = data.address;
 			await loadMessages();
 		}
+		startPolling();
 	} catch (e) {
 		console.error(e);
 	}
@@ -117,7 +131,7 @@ function renderMessages(list) {
 		el.className = 'message-item';
 		el.innerHTML = `
 			<div><strong>${m.from}</strong> — <span class="muted">${m.subject || '(Không tiêu đề)'}</span></div>
-			<div class="muted">ID: ${m.id} • ${new Date(m.date).toLocaleString()}</div>
+			<div class="muted">ID: ${m.id} • ${new Date(m.date || Date.now()).toLocaleString()}</div>
 		`;
 		el.onclick = () => openMessage(m.id);
 		messagesEl.appendChild(el);
