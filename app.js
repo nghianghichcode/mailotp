@@ -33,6 +33,35 @@ async function api(path, options = {}) {
 	return data;
 }
 
+function initAuthTabs() {
+	const tabLogin = qs('#tab-login');
+	const tabRegister = qs('#tab-register');
+	const panelLogin = qs('#panel-login');
+	const panelRegister = qs('#panel-register');
+	const indicator = qs('.tab-indicator');
+
+	function activate(tab) {
+		if (tab === 'login') {
+			tabLogin.classList.add('active');
+			tabRegister.classList.remove('active');
+			panelLogin.classList.add('show');
+			panelRegister.classList.remove('show');
+			indicator.style.transform = 'translateX(0)';
+			qs('#login-email')?.focus();
+		} else {
+			tabRegister.classList.add('active');
+			tabLogin.classList.remove('active');
+			panelRegister.classList.add('show');
+			panelLogin.classList.remove('show');
+			indicator.style.transform = 'translateX(100%)';
+			qs('#register-email')?.focus();
+		}
+	}
+
+	tabLogin?.addEventListener('click', () => activate('login'));
+	tabRegister?.addEventListener('click', () => activate('register'));
+}
+
 async function loadDomains() {
 	try {
 		const data = await api('/api/domains');
@@ -178,6 +207,7 @@ function initMailboxActions() {
 
 function init() {
 	setAuthedUI(!!token);
+	initAuthTabs();
 	initAuthForms();
 	initMailboxActions();
 	if (token) {

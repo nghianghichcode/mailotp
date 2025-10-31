@@ -15,21 +15,28 @@
 
 		<main>
 			<section id="auth-section">
-				<div class="card">
-					<h2>Đăng nhập</h2>
-					<form id="login-form">
-						<input type="email" id="login-email" placeholder="Email" required />
-						<input type="password" id="login-password" placeholder="Mật khẩu" required />
-						<button type="submit">Đăng nhập</button>
-					</form>
-				</div>
-				<div class="card">
-					<h2>Đăng ký</h2>
-					<form id="register-form">
-						<input type="email" id="register-email" placeholder="Email" required />
-						<input type="password" id="register-password" placeholder="Mật khẩu" required />
-						<button type="submit">Đăng ký</button>
-					</form>
+				<div class="card auth-card">
+					<div class="tabs">
+						<button id="tab-login" class="tab active">Đăng nhập</button>
+						<button id="tab-register" class="tab">Đăng ký</button>
+						<div class="tab-indicator"></div>
+					</div>
+					<div class="panels">
+						<div id="panel-login" class="panel show">
+							<form id="login-form">
+								<input type="email" id="login-email" placeholder="Email" required />
+								<input type="password" id="login-password" placeholder="Mật khẩu" required />
+								<button type="submit">Đăng nhập</button>
+							</form>
+						</div>
+						<div id="panel-register" class="panel">
+							<form id="register-form">
+								<input type="email" id="register-email" placeholder="Email" required />
+								<input type="password" id="register-password" placeholder="Mật khẩu" required />
+								<button type="submit">Đăng ký</button>
+							</form>
+						</div>
+					</div>
 				</div>
 			</section>
 
